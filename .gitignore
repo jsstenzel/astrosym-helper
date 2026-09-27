@@ -1,0 +1,18 @@
+# Identity file
+########################
+.ini
+
+# Structures and tools
+########################
+.venv
+
+# Python-generated files
+########################
+*/__pycache__
+*/*/__pycache__
+*/*/*/__pycache__
+*/*/*/*/__pycache__
+*/__init__.py
+*/*/__init__.py
+*/*/*/__init__.py
+*/*/*/*/__init__.py

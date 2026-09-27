@@ -8,14 +8,15 @@
 
 import os
 import argparse
-
-from whiffle import wikidotapi#, ApiError, SemanticError
 import time
 import base64
-
 import requests
 import json
 import re
+import sys
+
+sys.path.append('..')
+from src.wikidotapi import *
 
 #re.sub("[\(\[].*?[\)\]]", "", x)
 def remove_text_inside_brackets(text, brackets="()[]"):
@@ -36,22 +37,8 @@ def remove_text_inside_brackets(text, brackets="()[]"):
     return ''.join(saved_chars)
 
 
-def page_text(listpage):
-    prev = number-1
-    post = number+1
-    
-    referent = '''From the [https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=''' + str(number) + ''' JPL Small-Body DataBase]:\n\n[[table style="width: 75%;margin-right:auto; margin-left:auto;"]]\n[[row]]\n[[cell style="width: 100%; font-size: 100%; border: 1px solid grey; background-color: #F6F9F6; padding: 10px;"]]\n''' + citation +'''\n[[/cell]]\n[[/row]]\n[[/table]]'''
-    
-    symbol = "The symbol of this minor planet is a " + raw_input("The symbol of this minor planet is a ") + (" over ") + raw_input(" over ")
-    
-    pagetext = '''[[table style="width: 100%;"]]\n[[row]]\n[[cell style="width: 100%; font-size: 110%; border: 1px solid grey; background-color: #000000; color:grey; padding: 10px;"]]\n\n[[f>image ''' + str(number) + '''.png size="thumbnail"]]\n\n''' + str(referent) + '''\n\n''' + str(symbol) + '''\n\n= [[[minor-planets:''' + str(prev) + ''' |< prev]]]   | ''' + str(number) + ''' |   [[[minor-planets:''' + str(post) + ''' |next >]]]\n------\n\n\n[[/cell]]\n[[/row]]\n[[/table]]\n\n+ Comments\n[[module Comments]]'''
-    return pagetext
-
-
-api = wikidotapi.connection()
-
-
-def main(listpage, catchwords=[]):
+def turn_wikilist_into_wikidotlist(listpage, catchwords=[]):
+	api = WikidotConnection()
     #grab start and end numbers
     startnum = int(listpage.replace('-',':').split(":")[1])
     endnum = int(listpage.replace('-',':').split(":")[2])
@@ -133,38 +120,38 @@ def main(listpage, catchwords=[]):
 
 
 if __name__ == "__main__":
-    #main("list:12001-150000",['OSIRIS-REx'])
-    #main("list:1-700000",['Astronaut','astronaut','cosmonaut','taikonaut','STS-'])
-    main("list:1-700000",['Astronomer','astronomer'])
+    #turn_wikilist_into_wikidotlist("list:12001-150000",['OSIRIS-REx'])
+    #turn_wikilist_into_wikidotlist("list:1-700000",['Astronaut','astronaut','cosmonaut','taikonaut','STS-'])
+    turn_wikilist_into_wikidotlist("list:1-700000",['Astronomer','astronomer'])
     """
-    main("list:4001-5000") #997
-    main("list:5001-6000") #890
-    main("list:6001-7000") #844
-    main("list:7001-8000") #769
-    main("list:8001-9000") #771
-    main("list:9001-10000") #736
-    main("list:10001-11000") #728
-    main("list:11001-12000") #589
-    main("list:12001-13000") #586
-    main("list:13001-14000") #430
-    main("list:14001-16000") # 701
-    main("list:16001-18000") # 677
-    main("list:18001-20000") # 681
-    main("list:20001-22000") # 847
-    main("list:22001-24000") # 702
-    main("list:24001-26000") # 735
-    main("list:26001-28000") # 614
-    main("list:28001-30000") # 585
-    main("list:30001-32000") #600
-    main("list:32001-35000") #732
-    main("list:35001-40000") #259
-    main("list:40001-70000") #838
-    main("list:70001-100000") #618
-    main("list:100001-150000") #869
-    main("list:150001-200000") #619
-    main("list:200001-300000") #894
-    main("list:300001-400000") #458
-    main("list:400001-700000") #253
+    turn_wikilist_into_wikidotlist("list:4001-5000") #997
+    turn_wikilist_into_wikidotlist("list:5001-6000") #890
+    turn_wikilist_into_wikidotlist("list:6001-7000") #844
+    turn_wikilist_into_wikidotlist("list:7001-8000") #769
+    turn_wikilist_into_wikidotlist("list:8001-9000") #771
+    turn_wikilist_into_wikidotlist("list:9001-10000") #736
+    turn_wikilist_into_wikidotlist("list:10001-11000") #728
+    turn_wikilist_into_wikidotlist("list:11001-12000") #589
+    turn_wikilist_into_wikidotlist("list:12001-13000") #586
+    turn_wikilist_into_wikidotlist("list:13001-14000") #430
+    turn_wikilist_into_wikidotlist("list:14001-16000") # 701
+    turn_wikilist_into_wikidotlist("list:16001-18000") # 677
+    turn_wikilist_into_wikidotlist("list:18001-20000") # 681
+    turn_wikilist_into_wikidotlist("list:20001-22000") # 847
+    turn_wikilist_into_wikidotlist("list:22001-24000") # 702
+    turn_wikilist_into_wikidotlist("list:24001-26000") # 735
+    turn_wikilist_into_wikidotlist("list:26001-28000") # 614
+    turn_wikilist_into_wikidotlist("list:28001-30000") # 585
+    turn_wikilist_into_wikidotlist("list:30001-32000") #600
+    turn_wikilist_into_wikidotlist("list:32001-35000") #732
+    turn_wikilist_into_wikidotlist("list:35001-40000") #259
+    turn_wikilist_into_wikidotlist("list:40001-70000") #838
+    turn_wikilist_into_wikidotlist("list:70001-100000") #618
+    turn_wikilist_into_wikidotlist("list:100001-150000") #869
+    turn_wikilist_into_wikidotlist("list:150001-200000") #619
+    turn_wikilist_into_wikidotlist("list:200001-300000") #894
+    turn_wikilist_into_wikidotlist("list:300001-400000") #458
+    turn_wikilist_into_wikidotlist("list:400001-700000") #253
     """
 
 
